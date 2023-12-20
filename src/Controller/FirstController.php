@@ -8,11 +8,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FirstController extends AbstractController
 {
-    #[Route('/first', name: 'app_first')]
-    public function index(): Response
-    {
+    #[Route('/first/{firstname<^[a-zA-ZÀ-ÖØ-öø-ÿ-]+$>}
+    ', name: 'app_first')]
+    public function index(string $firstname): Response
+    {   
         return $this->render('first/index.html.twig', [
-            'controller_name' => 'Séné',
+            'controller_name' => $firstname,
         ]);
     }
 }
