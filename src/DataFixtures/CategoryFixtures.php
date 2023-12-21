@@ -19,10 +19,16 @@ class CategoryFixtures extends Fixture
         $clothing ->setName('Clothing');
         $manager->persist($clothing);
 
+        $hightech = new Category();
+        $hightech -> setName('Hightech');
+        $manager ->persist($hightech);
+        
         $gaming = new Category();
         $gaming-> setName('Gaming');
+        $gaming-> setParent($hightech);
         $manager->persist($gaming);
 
+        
         $manager->flush();
     }
 }
