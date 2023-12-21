@@ -21,7 +21,8 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class, orphanRemoval: true)]
     private Collection $products;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children', cascade: ['remove', 'persist'])]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?self $parent = null;
 
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]

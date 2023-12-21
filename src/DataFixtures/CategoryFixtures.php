@@ -28,7 +28,7 @@ class CategoryFixtures extends Fixture
         $gaming-> setParent($hightech);
         $manager->persist($gaming);
 
-        
+    
         $manager->flush();
     }
 }
