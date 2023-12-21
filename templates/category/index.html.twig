@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des catégories{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <div class="example-wrapper">
+        <h1>Liste des catégories</h1>
+        {% for category in categories %}
+            <h2><a  href="{{path('app_category_show_by_id', {id: category.id})}}">{{category.name}}</a></h2>
+            {% if category.parent %}
+            <p>Sous-catégorie de {{category.parent.name}}</p>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
