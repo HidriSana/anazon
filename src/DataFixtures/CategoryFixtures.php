@@ -37,7 +37,7 @@ class CategoryFixtures extends Fixture
         $manager->persist($gaming);
         $this->addReference(self::CATEGORY_GAMING, $gaming);
 
-
+        $
     
         $manager->flush();
     }

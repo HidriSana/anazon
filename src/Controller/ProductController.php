@@ -18,7 +18,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/products/{id<^\d+$>}', name: 'app_product')]
+    #[Route('/products/{id<^\d+$>}', name: 'app_products_show_by_id')]
     public function showProductById(Product $product): Response
     {
         return $this->render('product/showProductById.html.twig', [
