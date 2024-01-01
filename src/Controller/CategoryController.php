@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\AddCategoryType;
+use App\Form\FilterCategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +16,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     #[Route('/categories', name: 'app_category')]
-    public function index(CategoryRepository $categoryRepository): Response
+    public function index(CategoryRepository $categoryRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $form = $this->createForm(FilterCategoryType::class);
+        $form->handleRequest($request);
+
+        $categories = $paginator->paginate(
+            $categoryRepository->getListQueryBuilder('c'), /* query NOT result */
+            $request->query->getInt('page', 1),/*page number*/
+            2 /*limit per page*/
+        );
+
         return $this->render('category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
+            'categories' => $categories,
+            'form' => $form
         ]);
     }
     #[Route('/categories/{id<^\d+$>}', name: 'app_category_show_by_id')]

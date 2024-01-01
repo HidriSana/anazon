@@ -5,20 +5,33 @@
 
 {% block body %}
 	<div>
-		<div>
-			<h1 class="display-2 text-center text-white fw-bold">Liste des catégories</h1>
-			{% for category in categories %}
-				<h2 class="list-group mb-1">
-					<a href="{{path('app_category_show_by_id', {id: category.id})}}" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover list-group-item list-group-item-action list-group-item-light list-group-item d-flex justify-content-between align-items-center">{{category.name}}
-						{% if category.parent %}
-							<span class="badge bg-primary rounded-pill">Sous-catégorie de
-								{{category.parent.name}}</span>
-						{% endif %}
-					</a>
-				</h2>
-
-			{% endfor %}
+		<div class="count">
+			{{ categories.getTotalItemCount }}
+			catégories trouvées
 		</div>
-		<a href="{{path('add_category')}}" class="btn btn-success">Ajouter une catégorie</a>
-	</div>
-{% endblock %}
+		<div>
+			{{ form(form) }}
+			</div>
+			<table>
+				<tr>
+					{# sorting of properties based on query components #}
+					<th>{{ knp_pagination_sortable(categories, 'Id', 'c.id') }}</th>
+					<th {% if categories.isSorted('c.name') %} class="sorted" {% endif %}>
+						{{ knp_pagination_sortable(categories, 'Nom de la catégorie', 'c.name') }}
+					</th>
+				</tr>
+
+				{# table body #}
+				{% for category in categories %}
+					<tr {% if loop.index is odd %} class="color" {% endif %}>
+						<td>{{ category.id }}</td>
+						<td>{{ category.name }}</td>
+					</tr>
+				{% endfor %}
+			</table>
+			<div class="navigation">
+				{{ knp_pagination_render(categories) }}
+			</div>
+			<a href="{{path('add_category')}}" class="btn btn-success">Ajouter une catégorie</a>
+		</div>
+	{% endblock %}
